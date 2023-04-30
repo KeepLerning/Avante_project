@@ -7,4 +7,4 @@ from .models import CostumUser
 @receiver(post_save, sender=User)
 def create_user(sender, instance, created, **kwargs):
     if created:
-        CostumUser.objects.create(id_user=instance, n_phone=instance.n_phone)
+        CostumUser.objects.create(id_user=instance, Nomor_phone=instance.n_phone)

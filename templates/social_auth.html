@@ -1,0 +1,12 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Login with {{ provider|title }}</h1>
+    <p>Connect your {{ provider|title }} account to continue.</p>
+
+    <form method="post" action="{% url 'social:begin' provider %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Connect with {{ provider|title }}</button>
+    </form>
+{% endblock %}

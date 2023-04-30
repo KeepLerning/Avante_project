@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class FormPendaftaran(UserCreationForm):
-    n_phone = forms.IntegerField()
+    Nomor_phone = forms.IntegerField()
 
     class Meta:
         model = User
@@ -13,12 +13,12 @@ class FormPendaftaran(UserCreationForm):
             'password1',
             'password2',
             'email',
-            'n_phone',
+            'Nomor_phone',
         ]
 
     # def seve(self, commit=True):
     #     user = super(FromPendaftaran, self).seve(commit=False)
-    #     user.n_phone = self.clean_data['n_phone']
+    #     user.Nomor_phone = self.clean_data['Nomor_phone']
     #     if commit:
     #         user.save()
     #     return user
