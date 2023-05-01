@@ -7,6 +7,10 @@ from social_django.models import UserSocialAuth
 from django.contrib.auth import login
 from social_core.backends.facebook import FacebookOAuth2
 from social_core.backends.google import GoogleOAuth2
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.views import OAuth2LoginView
+
+
 
 
 
@@ -83,12 +87,32 @@ def social_auth_complete(request, backend):
         # Provider autentikasi sosial yang digunakan tidak didukung.
         return HttpResponseBadRequest('Provider tidak didukung.')
 
-from django.shortcuts import redirect
 
 def social_auth_complete(request, provider):
     return redirect('home')
 
 
+def get_user_profile(request):
+    user = request.user
+    user_social = UserSocialAuth.objects.get(user=user)
+    user_profile = user_social.extra_data
+
+    
+    user_id = user_social.uid
+    user_name = user_profile['name']
+    user_email = user_profile['email']
+    user_picture = user_profile['picture']
+
+    return render(request, 'profile.html', {
+        'user_id': user_id,
+        'user_name': user_name,
+        'user_email': user_email,
+        'user_picture': user_picture,
+    })
+
+
+class FacebookOAuth2LoginView(OAuth2LoginView):
+    adapter_class = FacebookOAuth2Adapter
 
 
 # def home(request):

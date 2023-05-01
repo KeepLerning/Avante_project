@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from django.urls import reverse_lazy
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,7 +45,11 @@ INSTALLED_APPS = [
     'Pengiriman',
     'Ulasan',
     'social_django',
-    
+    'django.contrib.sites',
+    'allauth.socialaccount',
+    'allauth',
+    'allauth.account',
+
 ]
 
 MIDDLEWARE = [
@@ -142,28 +148,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'allauth.socialaccount.auth_backends.AuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'allauth.socialaccount.providers.facebook.auth.FacebookOAuth2Adapter',
 ]
-
-SOCIAL_AUTH_FACEBOOK_KEY = 'your-facebook-app-id'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'your-facebook-app-secret'
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'your-google-client-id'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'your-google-client-secret'
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-
-SOCIAL_AUTH_FACEBOOK_KEY = '<Facebook App ID>'
-SOCIAL_AUTH_FACEBOOK_SECRET = '<Facebook App Secret>'
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id, name, email'}
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '<Google Client ID>'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '<Google Client Secret>'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email', 'profile']
-SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['picture', 'gender', 'locale']
-
-
-
 
 SOCIAL_AUTH_PIPELINE = [ 
     'social_core.pipeline.social_auth.social_details',
@@ -180,3 +173,87 @@ SOCIAL_AUTH_PIPELINE = [
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+SITE_ID = 1
+
+SOCIAL_AUTH_FACEBOOK_KEY = '251977793976958'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'ecc4562a9596bf6d5f9780e099050ee'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id,name,email'}
+SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.12'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time'
+        ],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'en_US',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v12.0',
+    }
+}
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_URL = 'logout'
+
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.providers.facebook.views.FacebookOAuth2Adapter'
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.providers.facebook.views.FacebookOAuth2Adapter'
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+SOCIALACCOUNT_STORE_TOKENS = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': ['email', 'public_profile'],
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v3.0',
+    },
+}
+
+SOCIAL_AUTH_LOGIN_URL = reverse_lazy('login')
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/'
+SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/'
+
+
+# SOCIALACCOUNT_PROVIDERS = {
+#     # 'google': {
+#     #     'APP': {
+#     #         'client_id': '251977793976958',
+#     #         'secret': 'ecc4562a9596bf6d5f9780e099050ee',
+#     #         'key': ''
+#     #     }
+#     # },
+#     'facebook': {
+#         'APP': {
+#             'client_id': '251977793976958',
+#             'secret': 'ecc4562a9596bf6d5f9780e099050ee',
+#         },
+#         'SITE_URL': 'https://www.myapp.com',
+#         'SCOPE': ['email', 'public_profile'],
+#         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+#         'METHOD': 'oauth2',
+#         'LOCALE_FUNC': lambda request: 'en_US',
+#         'VERIFIED_EMAIL': False,
+#         'VERSION': 'v2.12',
+#     },
+    
+# }

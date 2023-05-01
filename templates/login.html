@@ -19,6 +19,8 @@
         <p>Connect your {{ provider|title }} account to continue.</p>
         <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
         <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+        {% comment %} {% provider_login_url 'google' %} {% endcomment %}
+        {% comment %} {% provider_login_url 'facebook' %} {% endcomment %}
         <a href="{% url 'register' %}">Don't have an account? Register here.</a>
     
 

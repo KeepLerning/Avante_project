@@ -1,9 +1,9 @@
-from django.urls import path
-from . import views
+# from django.urls import path
+# from . import views
 
-app_name='Akun'
+# app_name='Akun'
 
-urlpatterns = [
+# urlpatterns = [
     
-    # path('',views.pendaftaran ,name='index'),
-]
+#     # path('',views.pendaftaran ,name='index'),
+# ]
